@@ -1,0 +1,13 @@
+# System files
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# After Effects
+*.aep
+*.bak

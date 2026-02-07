@@ -1,0 +1,22 @@
+# Smart Auto-Cut Backend v2.0 - High Accuracy Edition
+# Install: pip install -r requirements.txt
+
+# Core transcription - faster-whisper for better performance
+faster-whisper>=0.10.0
+
+# Fallback to OpenAI whisper if faster-whisper doesn't work
+openai-whisper>=20231117
+
+# PyTorch for model inference
+torch>=2.0.0
+
+# Audio processing
+numpy>=1.24.0
+ffmpeg-python>=0.2.0
+
+# Web server
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# Utilities
+tqdm>=4.66.0

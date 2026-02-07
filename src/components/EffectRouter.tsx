@@ -5,6 +5,9 @@ import { GlitchText } from "./effects/GlitchText";
 import { NeonText } from "./effects/NeonText";
 import { TypewriterText } from "./effects/TypewriterText";
 import { DropText } from "./effects/DropText";
+import { WaveText } from "./effects/WaveText";
+import { ShakeText } from "./effects/ShakeText";
+import { ScalePopText } from "./effects/ScalePopText";
 
 // Basic fade fallback
 const FadeText: React.FC<{ line: LyricLine }> = ({ line }) => {
@@ -20,7 +23,6 @@ export const EffectRouter: React.FC<{ line: LyricLine }> = ({ line }) => {
         case "bounce":
             return <BounceText line={line} />;
         case "glitch":
-            // Fallback until implemented
             return <GlitchText line={line} />;
         case "neon":
             return <NeonText line={line} />;
@@ -28,6 +30,12 @@ export const EffectRouter: React.FC<{ line: LyricLine }> = ({ line }) => {
             return <TypewriterText line={line} />;
         case "drop":
             return <DropText line={line} />;
+        case "wave":
+            return <WaveText line={line} />;
+        case "shake":
+            return <ShakeText line={line} />;
+        case "scalePop":
+            return <ScalePopText line={line} />;
         case "fade":
         default:
             return <FadeText line={line} />;

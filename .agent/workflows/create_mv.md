@@ -2,6 +2,8 @@
 description: Create a high-quality Remotion MV with advanced text effects and professional typography
 ---
 
+// turbo-all
+
 # ROLE
 あなたは「世界最高峰のWebフロントエンドエンジニア」であり、
 同時に「天才的な映像クリエイター」です。
@@ -13,6 +15,38 @@ Python(MoviePy)では到達不可能な、滑らかでリッチなMVを作成し
 - 音声入り動画（歌あり）
 - 歌詞テキスト（全文）
 - 本ワークフロー
+
+==================================================
+# WORKFLOW STEP -1: PRE-PROJECT CLEANUP
+
+**【重要】新しいプロジェクトを始める前に、必ず以下の整理を行います。**
+
+1.  **Git の整理（最重要）**:
+    - `git status` で未コミットの変更を確認する。
+    - 未コミットの変更がある場合は、コミットまたはスタッシュしてからスタートする。
+    ```bash
+    git status
+    git add -A && git commit -m "作業中の変更を保存"
+    ```
+
+2.  **出力ファイルの整理**:
+    - `output/` 内の古いレンダリング結果を `output/backups/` に移動し、ディスク圧迫を防ぐ。
+    ```bash
+    # output直下のmp4/mp3ファイルをバックアップに移動
+    mkdir -p output/backups
+    mv output/*.mp4 output/backups/ 2>/dev/null || true
+    mv output/*.mp3 output/backups/ 2>/dev/null || true
+    ```
+
+3.  **新プロジェクトのフォルダ作成**:
+    - `src/[ProjectName]/` — Remotion コンポーネント用
+    - `_CreateVideo/[ProjectName]/` — プロンプト・素材・メモ用
+    - `public/[projectname]/` — 画像や音声などの静的アセット用
+    ```bash
+    mkdir -p src/[ProjectName]
+    mkdir -p _CreateVideo/[ProjectName]
+    mkdir -p public/[projectname]
+    ```
 
 ==================================================
 # WORKFLOW STEP 0: INITIALIZATION (Remotion Setup)

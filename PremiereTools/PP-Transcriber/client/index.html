@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>PP-Transcriber</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🎙️ PP-Transcriber</h1>
+            <p class="subtitle">高精度文字起こし</p>
+        </header>
+
+        <section class="main-section">
+            <div class="status-bar" id="statusBar">
+                <span class="status-icon">📋</span>
+                <span class="status-text" id="statusText">準備完了</span>
+            </div>
+
+            <div class="clip-info" id="clipInfo">
+                <div class="info-label">選択クリップ:</div>
+                <div class="info-value" id="clipName">なし</div>
+            </div>
+
+            <button class="btn btn-primary" id="btnTranscribe">
+                <span class="btn-icon">▶️</span>
+                文字起こし開始
+            </button>
+        </section>
+
+        <section class="result-section" id="resultSection" style="display: none;">
+            <div class="result-header">
+                <h2>📝 文字起こし結果</h2>
+                <div class="result-stats" id="resultStats"></div>
+            </div>
+
+            <div class="result-content" id="resultContent"></div>
+
+            <div class="export-buttons">
+                <button class="btn btn-export" id="btnExportSRT">
+                    📄 SRT
+                </button>
+                <button class="btn btn-export" id="btnExportTXT">
+                    📝 TXT
+                </button>
+                <button class="btn btn-export" id="btnExportJSON">
+                    📊 JSON
+                </button>
+            </div>
+        </section>
+
+        <section class="settings-section">
+            <details>
+                <summary>⚙️ 設定</summary>
+                <div class="setting-item">
+                    <label for="language">言語:</label>
+                    <select id="language">
+                        <option value="ja" selected>日本語</option>
+                        <option value="en">English</option>
+                        <option value="auto">自動検出</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="serverUrl">サーバーURL:</label>
+                    <input type="text" id="serverUrl" value="http://localhost:5050">
+                </div>
+            </details>
+        </section>
+    </div>
+
+    <script src="CSInterface.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

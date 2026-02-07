@@ -1,6 +1,6 @@
 
 
-export type EffectType = "bounce" | "fade" | "glitch" | "typewriter" | "neon" | "drop";
+export type EffectType = "bounce" | "fade" | "glitch" | "typewriter" | "neon" | "drop" | "wave" | "shake" | "scalePop";
 
 export type LyricLine = {
     time: number; // Seconds

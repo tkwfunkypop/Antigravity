@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Illustrator Scripts マニュアル</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+            font-size: 11pt;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #fff;
+        }
+
+        .manual {
+            page-break-after: always;
+            padding: 40px 50px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .manual:last-child {
+            page-break-after: auto;
+        }
+
+        .header {
+            border-bottom: 3px solid #FF6600;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 22pt;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 10pt;
+            color: #888;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: #FF6600;
+            color: #fff;
+            font-size: 9pt;
+            padding: 2px 10px;
+            border-radius: 3px;
+            margin-top: 8px;
+        }
+
+        h2 {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #FF6600;
+            margin: 25px 0 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        h3 {
+            font-size: 12pt;
+            font-weight: 500;
+            color: #444;
+            margin: 18px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        .overview {
+            background: #FFF8F0;
+            border-left: 4px solid #FF6600;
+            padding: 15px 20px;
+            margin: 15px 0 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 18px;
+            font-size: 10pt;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 500;
+            text-align: left;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+
+        td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+
+        .step {
+            display: flex;
+            gap: 15px;
+            margin: 12px 0;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: #FF6600;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14pt;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 4px;
+        }
+
+        .step-content strong {
+            color: #333;
+        }
+
+        .note {
+            background: #FFF3CD;
+            border: 1px solid #FFECB5;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 10pt;
+        }
+
+        .note::before {
+            content: "⚠ 注意: ";
+            font-weight: 700;
+            color: #856404;
+        }
+
+        .tip {
+            background: #D1ECF1;
+            border: 1px solid #BEE5EB;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 10pt;
+        }
+
+        .tip::before {
+            content: "💡 ヒント: ";
+            font-weight: 700;
+            color: #0C5460;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 9.5pt;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f0f0f0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 10px 0 15px;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 9.5pt;
+            line-height: 1.5;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            font-size: 9pt;
+            color: #999;
+            text-align: center;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        @media print {
+            body {
+                font-size: 10pt;
+            }
+
+            .manual {
+                padding: 20px 0;
+            }
+
+            .header h1 {
+                font-size: 20pt;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================================================================ -->
+    <!-- 1. RenameLayer.jsx -->
+    <!-- ================================================================ -->
+    <div class="manual">
+        <div class="header">
+            <h1>RenameLayer.jsx</h1>
+            <div class="subtitle">Illustrator スクリプトマニュアル</div>
+            <span class="badge">レイヤー操作</span>
+        </div>
+
+        <div class="overview">
+            ドキュメント内のすべてのレイヤー名を一括で変更できるスクリプトです。<br>
+            ダイアログ上でレイヤー名を直接編集できるため、大量のレイヤー名を素早くリネームできます。
+        </div>
+
+        <h2>動作環境</h2>
+        <p>Adobe Illustrator CC以降</p>
+
+        <h2>使い方</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <strong>スクリプトを実行</strong><br>
+                <code>ファイル</code> → <code>スクリプト</code> → <code>RenameLayer</code> を選択します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <strong>ダイアログが表示される</strong><br>
+                現在のすべてのレイヤー名が改行区切りでテキストエリアに表示されます。
+                <div class="code-block">レイヤー 1<br>レイヤー 2<br>レイヤー 3</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <strong>レイヤー名を編集</strong><br>
+                テキストエリア内でレイヤー名を自由に書き換えます。
+                <div class="code-block">背景<br>メインイラスト<br>テキスト要素</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <strong>OKをクリック</strong><br>
+                編集内容が即座にすべてのレイヤーに反映されます。
+            </div>
+        </div>
+
+        <div class="note">行数（レイヤー数）は変更しないでください。行数がレイヤー数と一致している必要があります。</div>
+
+        <h2>注意事項</h2>
+        <ul>
+            <li>レイヤーの並び順は、レイヤーパネルの<strong>上から下</strong>の順序で表示されます</li>
+            <li>行を追加・削除してレイヤー数と一致しなくなった場合、エラーが発生する可能性があります</li>
+            <li><code>Cancel</code> をクリックすると変更は適用されません</li>
+        </ul>
+
+        <div class="footer">RenameLayer.jsx マニュアル</div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- 2. RenameObject.jsx -->
+    <!-- ================================================================ -->
+    <div class="manual">
+        <div class="header">
+            <h1>RenameObject.jsx</h1>
+            <div class="subtitle">Illustrator スクリプトマニュアル</div>
+            <span class="badge">オブジェクト操作</span>
+        </div>
+
+        <div class="overview">
+            選択中のオブジェクトの名前を一括で変更できるスクリプトです。<br>
+            レイヤーパネルで表示されるオブジェクト名（<code>&lt;パス&gt;</code> や <code>&lt;グループ&gt;</code> など）を、分かりやすい名前に一括リネームできます。
+        </div>
+
+        <h2>動作環境</h2>
+        <p>Adobe Illustrator CC以降</p>
+
+        <h2>使い方</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <strong>オブジェクトを選択</strong><br>
+                名前を変更したいオブジェクトを<strong>複数選択</strong>します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <strong>スクリプトを実行</strong><br>
+                <code>ファイル</code> → <code>スクリプト</code> → <code>RenameObject</code> を選択します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <strong>ダイアログが表示される</strong><br>
+                選択中のオブジェクト名が改行区切りでテキストエリアに表示されます。
+                <div class="code-block">&lt;パス&gt;<br>&lt;パス&gt;<br>&lt;グループ&gt;</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <strong>オブジェクト名を編集</strong><br>
+                テキストエリア内で名前を自由に書き換えます。
+                <div class="code-block">ロゴマーク<br>背景シェイプ<br>アイコングループ</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <strong>OKをクリック</strong><br>
+                編集内容が即座にすべての選択オブジェクトに反映されます。
+            </div>
+        </div>
+
+        <div class="note">行数は選択オブジェクト数と一致させてください。</div>
+
+        <h2>注意事項</h2>
+        <ul>
+            <li>オブジェクトの並び順は<strong>選択順</strong>に依存します</li>
+            <li>オブジェクト名は<strong>レイヤーパネル</strong>で確認できます（三角マークでレイヤーを展開）</li>
+            <li>SVG書き出し時に <code>id</code> 属性として利用されるため、命名規則を統一しておくと便利です</li>
+            <li><code>Cancel</code> をクリックすると変更は適用されません</li>
+        </ul>
+
+        <div class="footer">RenameObject.jsx マニュアル</div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- 3. SeparateToLayers.jsx -->
+    <!-- ================================================================ -->
+    <div class="manual">
+        <div class="header">
+            <h1>SeparateToLayers.jsx</h1>
+            <div class="subtitle">Illustrator スクリプトマニュアル</div>
+            <span class="badge">レイヤー操作</span>
+        </div>
+
+        <div class="overview">
+            選択したオブジェクトをそれぞれ<strong>個別のレイヤー</strong>に分割するスクリプトです。<br>
+            パレットウィンドウ（常駐型）で動作するため、他のパネルと並べて繰り返し使用できます。<br>
+            After Effectsへのデータ連携やアニメーション準備に最適です。
+        </div>
+
+        <h2>動作環境</h2>
+        <p>Adobe Illustrator CC以降</p>
+
+        <h2>機能一覧</h2>
+        <table>
+            <tr>
+                <th>機能</th>
+                <th>説明</th>
+            </tr>
+            <tr>
+                <td>レイヤー自動命名</td>
+                <td>オブジェクトの種類・名前に応じた自動命名</td>
+            </tr>
+            <tr>
+                <td>グループ構造保持</td>
+                <td>グループはそのまま1つのレイヤーに移動</td>
+            </tr>
+            <tr>
+                <td>重複名回避</td>
+                <td>同名レイヤーがある場合は自動で連番を付与</td>
+            </tr>
+            <tr>
+                <td>順序反転オプション</td>
+                <td>レイヤーの積み重ね順を反転可能</td>
+            </tr>
+        </table>
+
+        <h2>使い方</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <strong>スクリプトを実行</strong><br>
+                <code>ファイル</code> → <code>スクリプト</code> → <code>SeparateToLayers</code> を選択します。<br>
+                パレットウィンドウが表示されます（ドッキング可能）。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <strong>オブジェクトを選択</strong><br>
+                レイヤーに分割したいオブジェクトを選択します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <strong>オプションを設定</strong><br>
+                「レイヤー順を反転する」：チェックを入れると、レイヤーの積み重ね順が逆になります。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <strong>「選択オブジェクトをレイヤー分割」ボタンをクリック</strong><br>
+                処理が実行され、ステータスバーに結果が表示されます。
+            </div>
+        </div>
+
+        <h2>自動命名ルール</h2>
+        <table>
+            <tr>
+                <th>オブジェクト種類</th>
+                <th>レイヤー名の例</th>
+            </tr>
+            <tr>
+                <td>名前付きオブジェクト</td>
+                <td>そのオブジェクト名</td>
+            </tr>
+            <tr>
+                <td>グループ</td>
+                <td>グループ 1</td>
+            </tr>
+            <tr>
+                <td>テキスト</td>
+                <td>テキスト内容の先頭30文字</td>
+            </tr>
+            <tr>
+                <td>パス</td>
+                <td>パス 1</td>
+            </tr>
+            <tr>
+                <td>複合パス</td>
+                <td>複合パス 1</td>
+            </tr>
+            <tr>
+                <td>配置画像</td>
+                <td>配置画像 1</td>
+            </tr>
+            <tr>
+                <td>ラスター</td>
+                <td>ラスター 1</td>
+            </tr>
+            <tr>
+                <td>シンボル</td>
+                <td>シンボル 1</td>
+            </tr>
+            <tr>
+                <td>メッシュ</td>
+                <td>メッシュ 1</td>
+            </tr>
+        </table>
+
+        <h2>注意事項</h2>
+        <ul>
+            <li>グループ内のオブジェクトを個別に選択した場合、トップレベルのオブジェクトのみが処理されます</li>
+            <li>パレットウィンドウのため、閉じるまで何度でも実行できます</li>
+            <li>元に戻すには <code>Cmd+Z</code>（取り消し）を使用してください</li>
+        </ul>
+
+        <div class="footer">SeparateToLayers.jsx マニュアル</div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- 4. Fillinger.jsx -->
+    <!-- ================================================================ -->
+    <div class="manual">
+        <div class="header">
+            <h1>Fillinger.jsx</h1>
+            <div class="subtitle">Illustrator スクリプトマニュアル</div>
+            <span class="badge">パターン生成</span>
+        </div>
+
+        <div class="overview">
+            パスの内部をオブジェクトで<strong>ランダムに充填</strong>するスクリプトです。<br>
+            円形・多角形・アイコンなど任意のオブジェクトをパス形状に合わせて自動配置できます。<br>
+            パターン背景やデコレーション、テクスチャ生成に最適です。
+        </div>
+
+        <p style="font-size:9pt; color:#888;">作者: Alexander Ladygin（<a
+                href="http://www.ladyginpro.ru">ladyginpro.ru</a>） / 元スクリプト: Jongware</p>
+
+        <h2>動作環境</h2>
+        <p>Adobe Illustrator CC以降</p>
+
+        <h2>使い方</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <strong>オブジェクトを準備</strong><br>
+                以下の2種類のオブジェクトを用意します：
+                <ul>
+                    <li><strong>充填先のパス</strong>：充填したい形のパスまたは複合パス（1つ）</li>
+                    <li><strong>充填するオブジェクト</strong>：繰り返し配置したいオブジェクト（1つ以上）</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <strong>すべてを選択してスクリプトを実行</strong><br>
+                充填先パスと充填オブジェクトの<strong>両方を選択</strong>した状態で、<br><code>ファイル</code> → <code>スクリプト</code> →
+                <code>fillinger</code> を実行します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <strong>設定画面で調整</strong><br>
+                下記の設定テーブルを参照してパラメータを設定します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <strong>OKで実行</strong><br>
+                プログレスバーが表示され、処理が完了します。
+            </div>
+        </div>
+
+        <h2>サイズ設定</h2>
+        <table>
+            <tr>
+                <th>設定項目</th>
+                <th>説明</th>
+                <th>デフォルト</th>
+            </tr>
+            <tr>
+                <td>Max</td>
+                <td>最大サイズ（全体に対する%）</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Min</td>
+                <td>最小サイズ（全体に対する%）</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>Min distance</td>
+                <td>オブジェクト間の最小距離</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Resize value</td>
+                <td>配置時のリサイズ率（%）</td>
+                <td>70</td>
+            </tr>
+        </table>
+
+        <h2>回転設定</h2>
+        <table>
+            <tr>
+                <th>オプション</th>
+                <th>説明</th>
+            </tr>
+            <tr>
+                <td>Random</td>
+                <td>ランダムに回転（0〜360°）</td>
+            </tr>
+            <tr>
+                <td>By value</td>
+                <td>指定した角度で回転</td>
+            </tr>
+        </table>
+
+        <h2>配置・その他オプション</h2>
+        <table>
+            <tr>
+                <th>オプション</th>
+                <th>説明</th>
+            </tr>
+            <tr>
+                <td>On top / Below</td>
+                <td>充填先パスの上または下に配置</td>
+            </tr>
+            <tr>
+                <td>As in [Layers]</td>
+                <td>レイヤーパネルの順序に従う</td>
+            </tr>
+            <tr>
+                <td>Group all items</td>
+                <td>実行後にすべてをグループ化</td>
+            </tr>
+            <tr>
+                <td>Random items</td>
+                <td>グループ内からランダムに選択</td>
+            </tr>
+            <tr>
+                <td>Remove the item to fill</td>
+                <td>実行後に充填先パスを削除</td>
+            </tr>
+        </table>
+
+        <div class="tip">設定値は <code>~/Documents/LA_AI_Scripts/Fillinger__setting.json</code> に自動保存され、次回起動時に復元されます。</div>
+
+        <h2>使用例</h2>
+        <ul>
+            <li><strong>パターン背景</strong>：星やドットで背景を埋める</li>
+            <li><strong>テクスチャ</strong>：有機的な形状で面を埋める</li>
+            <li><strong>デコレーション</strong>：アイコンやモチーフで形を構成する</li>
+        </ul>
+
+        <h2>注意事項</h2>
+        <ul>
+            <li>充填先は <strong>PathItem</strong> または <strong>CompoundPathItem</strong> である必要があります</li>
+            <li>充填オブジェクトが複数ある場合は<strong>グループ化</strong>しておくと「Random items」で使えます</li>
+            <li>処理時間はパスの複雑さとサイズ設定に依存します</li>
+        </ul>
+
+        <div class="footer">Fillinger.jsx マニュアル</div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- 5. 文字を分解する ver3.jsx -->
+    <!-- ================================================================ -->
+    <div class="manual">
+        <div class="header">
+            <h1>文字を分解する ver3.jsx</h1>
+            <div class="subtitle">Illustrator スクリプトマニュアル</div>
+            <span class="badge">テキスト操作</span>
+        </div>
+
+        <div class="overview">
+            テキストオブジェクトの文字を<strong>1文字ずつ個別のオブジェクト</strong>に分解するスクリプトです。<br>
+            1文字ずつアニメーション・変形させたい場合やタイポグラフィ作品の制作に便利です。
+        </div>
+
+        <p style="font-size:9pt; color:#888; margin-bottom:15px;">※ このスクリプトはJSXBINフォーマットで提供されています</p>
+
+        <h2>動作環境</h2>
+        <p>Adobe Illustrator CC以降</p>
+
+        <h2>使い方</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <strong>テキストオブジェクトを選択</strong><br>
+                分解したいテキストフレームを選択します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <strong>スクリプトを実行</strong><br>
+                <code>ファイル</code> → <code>スクリプト</code> → <code>文字を分解する ver3</code> を選択します。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <strong>オプション設定（ダイアログ）</strong><br>
+                スクリプト実行時にダイアログが表示され、分解方法のオプションを選択できます。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <strong>実行</strong><br>
+                OKをクリックすると、テキストが1文字ずつ個別のオブジェクトに分解されます。
+            </div>
+        </div>
+
+        <h2>主な機能</h2>
+        <ul>
+            <li>1文字ずつ個別テキストフレームに分解</li>
+            <li>位置・サイズ・書式を保持したまま分解</li>
+            <li>縦書き・横書き対応</li>
+            <li>アウトライン化オプション</li>
+        </ul>
+
+        <h2>使用例</h2>
+        <ul>
+            <li><strong>タイポグラフィ作品</strong>：文字を個別に回転・変形・着色</li>
+            <li><strong>アニメーション素材</strong>：After Effectsに個別レイヤーとして読み込み</li>
+            <li><strong>デザインエフェクト</strong>：文字間隔やサイズを個別調整</li>
+        </ul>
+
+        <h2>注意事項</h2>
+        <ul>
+            <li>大量のテキストを処理する場合、処理時間がかかる場合があります</li>
+            <li>分解後は <code>Cmd+Z</code> で取り消し可能です</li>
+            <li>エリアテキスト（テキストボックス）とポイントテキストの両方に対応</li>
+        </ul>
+
+        <div class="footer">文字を分解する ver3.jsx マニュアル</div>
+    </div>
+
+</body>
+
+</html>

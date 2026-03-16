@@ -1,54 +1,60 @@
-# Remotion video
+# Direct GIF Export
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-dark.apng">
-      <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
-    </picture>
-  </a>
-</p>
+After Effectsのコンポジションから、ワンクリックで直接高品質なGIFアニメーションを描き出せる拡張スクリプトです。
 
-Welcome to your Remotion project!
+一度動画ファイルとしてレンダリングしたあと、外部ソフト（Photoshopやブラウザの変換ツール）を使ってGIFにする手間を省き、**UIパネルのボタンを押すだけ**で全自動書き出しを完了させます。
 
-## Commands
+## ✨ 特徴 (Features)
+- **ワンクリック全自動**: 中間動画のレンダリングからGIF変換、そして一時ファイルの削除までを自動で行います。
+- **高品質な最適化**: 裏側でFFmpegの「パレット生成フィルタ」を活用し、色合いが綺麗な高品質GIFを作成します。
+- **背景透過対応**: アルファチャンネル（透過背景）を含めた書き出しにも対応しています。
+- **クロスプラットフォーム**: Windows / Mac の両OSで動作します。
 
-**Install Dependencies**
+## 💻 動作環境 (Requirements)
+- **対応OS**: Windows 10/11 / macOS (Intel/Apple Silicon)
+- **対応アプリケーション**: Adobe After Effects CC 2019 以降
+- **必須コンポーネント**: **FFmpeg** (スクリプトがGIFに変換するために裏側で呼び出します)
+  - *Macの場合はHomebrew経由(`brew install ffmpeg`)などでインストール済みのものを自動検知します。*
+  - *Windowsの場合は環境変数PATHに通しておくか、初回起動時に手動で `ffmpeg.exe` の場所を指定することで利用可能です。*
 
-```console
-npm i
-```
+## 📦 インストール方法 (Installation)
 
-**Start Preview**
+1. ダウンロードしたZIPファイル（`DirectGIFExport_v1.0.zip`）を解凍します。
+2. 中に入っている **`ExportGIF.jsx`** を、お使いのOSの After Effects フォルダにコピーします。
+   - **Mac の場合:** 
+     `/Applications/Adobe After Effects (お使いのバージョン)/Scripts/ScriptUI Panels/`
+   - **Windows の場合:** 
+     `C:\Program Files\Adobe\Adobe After Effects (お使いのバージョン)\Support Files\Scripts\ScriptUI Panels\`
+3. After Effects を起動し、上部メニューの **[編集]** (Macは **[After Effects]**) > **[環境設定]** > **[スクリプトとエクスプレッション]** を開きます。
+4. **「スクリプトによるファイルへの書き込みとネットワークへのアクセスを許可」** にチェックを入れて [OK] を押します。
 
-```console
-npm run dev
-```
+## 🚀 使い方 (Usage)
 
-**Render video**
+1. メニューバーの **[ウィンドウ]** を開き、一番下にある **`ExportGIF.jsx`** をクリックすると、操作パネルが表示されます。
+2. GIF化したいコンポジションをタイムラインなどでクリックし、**アクティブ（選択状態）** にします。
+3. （任意）背景が透明なGIFを作る場合は、パネル上の **[背景を透過する (Alpha Channel)]** にチェックを入れます。
+4. **[GIF書き出し開始]** ボタンをクリックします。保存先を聞かれるので、名前と場所を指定すると自動で処理が走ります。
 
-```console
-npx remotion render
-```
+> **💡 Tips**: パネルは他のパネル（プロジェクトウィンドウなど）の横にドッキングして常駐させておくと、すぐに使えて便利です。
 
-**Upgrade Remotion**
+## ⚙️ 各UI・設定の説明 (Interface & Settings)
+- **[背景を透過する (Alpha Channel)]**: チェックを入れると、AEの出力モジュールで「ロスレス圧縮（アルファ付き）」などのアルファ対応テンプレートを探して適用し、FFmpegでの変換時も透過色を保持（`reserve_transparent=on`）するように動作します。
+- **[GIF書き出し開始]**: アクティブなコンポジションのレンダリングを開始します。
 
-```console
-npx remotion upgrade
-```
+## ❓ よくある質問・トラブルシューティング (FAQ / Troubleshooting)
 
-## Docs
+- **Q. インストールしたのに [ウィンドウ] メニューの下に `ExportGIF.jsx` が出てきません。**
+  - A. `Scripts` フォルダの直下ではなく、その中の `ScriptUI Panels` フォルダに正しく入っているか確認し、After Effects を再起動してください。
+- **Q. (Windows) 実行時に「システムにFFmpegが認識されていません」とアラートが出ます。**
+  - A. 案内ダイアログの指示に従って[はい]を押し、事前にダウンロードしておいた `ffmpeg.exe` を手動で選択してください。一度指定すると次回から自動的に記憶されます。
+- **Q. 背景を透過する設定にしたのに、黒い背景のGIFになります。**
+  - A. お使いのAEの出力モジュールに「ロスレス圧縮（アルファ付き）」のような名前の標準透過テンプレートがない可能性があります。[出力モジュール]のデフォルト設定からビデオ出力を「RGB＋アルファ」に変更してテンプレート保存を行なってください。
 
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
+## 📜 変更履歴 (Changelog)
+- **v1.0.0** (YYYY-MM-DD): 初版リリース
 
-## Help
+## 📄 ライセンス・免責事項 (License & Disclaimer)
+- 本ツールの利用により発生したいかなる損害についても、作者は一切の責任を負いません。ご自身の責任においてご利用ください。
 
-We provide help on our [Discord server](https://discord.gg/6VzzNDwUwV).
-
-## Issues
-
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
-
-## License
-
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+## 👨‍💻 作者 (Author)
+- **Name**: ユーザー (User)

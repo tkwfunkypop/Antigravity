@@ -5,7 +5,6 @@ import {
     useVideoConfig,
     spring,
     interpolate,
-    Easing,
 } from "remotion";
 
 const PROBLEMS = [

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AE Installer Tool — マニュアル</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a28;
+            --bg-code: #1e1e2e;
+            --border: #2a2a3a;
+            --text: #e8e8f0;
+            --text-dim: #8888a0;
+            --text-muted: #55556a;
+            --accent: #7c5cff;
+            --accent-glow: rgba(124, 92, 255, 0.3);
+            --accent-2: #00d4aa;
+            --accent-3: #ff6b9d;
+            --warning: #ffb347;
+            --success: #00d4aa;
+            --error: #ff6b6b;
+            --gradient-1: linear-gradient(135deg, #7c5cff 0%, #00d4aa 100%);
+            --gradient-2: linear-gradient(135deg, #ff6b9d 0%, #7c5cff 100%);
+            --gradient-hero: linear-gradient(180deg, #0a0a1a 0%, #12121a 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── ナビゲーション ─── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(124, 92, 255, 0.15);
+            padding: 0 24px;
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--text);
+            background: rgba(124, 92, 255, 0.1);
+        }
+
+        /* ─── ヒーロー ─── */
+        .hero {
+            padding: 140px 24px 80px;
+            text-align: center;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(124, 92, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(124, 92, 255, 0.12);
+            border: 1px solid rgba(124, 92, 255, 0.25);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 16px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            letter-spacing: 0.05em;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero h1 .gradient {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 18px;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+        .hero-feature .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-2);
+        }
+
+        /* ─── セクション ─── */
+        .section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ─── 特徴カード ─── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(124, 92, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(124, 92, 255, 0.08);
+        }
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .feature-icon.purple { background: rgba(124, 92, 255, 0.12); }
+        .feature-icon.green { background: rgba(0, 212, 170, 0.12); }
+        .feature-icon.pink { background: rgba(255, 107, 157, 0.12); }
+        .feature-icon.orange { background: rgba(255, 179, 71, 0.12); }
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        /* ─── ステップ ─── */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .step {
+            display: flex;
+            gap: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 32px;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+        .step:hover {
+            border-color: rgba(124, 92, 255, 0.3);
+            background: var(--bg-card-hover);
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .step-content h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .step-content p {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+        .step-content .path {
+            display: inline-block;
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 12px;
+            color: var(--accent-2);
+            margin-top: 4px;
+        }
+
+        /* ─── 対応フォーマット ─── */
+        .formats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .format-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+        .format-ext {
+            font-family: 'SF Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 65px;
+        }
+        .format-label {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        /* ─── コードブロック ─── */
+        .code-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 16px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        .code-block .comment {
+            color: var(--text-muted);
+        }
+
+        /* ─── 注意書き ─── */
+        .callout {
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 24px auto;
+            max-width: 800px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .callout.info {
+            background: rgba(124, 92, 255, 0.06);
+            border: 1px solid rgba(124, 92, 255, 0.2);
+        }
+        .callout.warning {
+            background: rgba(255, 179, 71, 0.06);
+            border: 1px solid rgba(255, 179, 71, 0.2);
+        }
+        .callout.success {
+            background: rgba(0, 212, 170, 0.06);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+        .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+        .callout-text { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+        .callout-text strong { color: var(--text); }
+
+        /* ─── FAQ ─── */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .faq-q {
+            padding: 20px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+        .faq-q:hover { background: var(--bg-card-hover); }
+        .faq-q .arrow {
+            transition: transform 0.3s;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-a-inner {
+            padding: 0 24px 20px;
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-a { max-height: 300px; }
+        .faq-item.open .arrow { transform: rotate(180deg); }
+
+        /* ─── ダイアグラム ─── */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        .flow-node {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 20px;
+            text-align: center;
+            min-width: 120px;
+        }
+        .flow-node .emoji { font-size: 24px; display: block; margin-bottom: 6px; }
+        .flow-node .label { font-size: 12px; font-weight: 600; color: var(--text); }
+        .flow-node .sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        .flow-arrow { color: var(--accent); font-size: 20px; }
+
+        /* ─── フッター ─── */
+        .footer {
+            text-align: center;
+            padding: 48px 24px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        /* ─── テーブル ─── */
+        .table-wrapper {
+            max-width: 800px;
+            margin: 24px auto;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        th {
+            background: rgba(124, 92, 255, 0.08);
+            padding: 14px 20px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+        }
+        td {
+            padding: 12px 20px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(42, 42, 58, 0.5);
+            color: var(--text-dim);
+        }
+        td code {
+            background: var(--bg-code);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-2);
+        }
+
+        /* ─── レスポンシブ ─── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-features { flex-direction: column; align-items: center; }
+            .step { flex-direction: column; gap: 16px; }
+            .flow-diagram { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ナビゲーション -->
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo">⚡ AE Installer Tool</div>
+        <ul class="nav-links">
+            <li><a href="#features">特徴</a></li>
+            <li><a href="#install">セットアップ</a></li>
+            <li><a href="#usage">使い方</a></li>
+            <li><a href="#formats">対応形式</a></li>
+            <li><a href="#cli">CLI</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ヒーロー -->
+<section class="hero">
+    <div class="hero-badge">Mac専用 — v4.1</div>
+    <h1>After Effects の<br><span class="gradient">プラグイン管理</span>を自動化</h1>
+    <p>README / マニュアルの指示を読み取って<br>スクリプト・プラグイン・プリセットを正しいディレクトリに自動振り分け</p>
+    <div class="hero-features">
+        <div class="hero-feature"><span class="dot"></span> README/マニュアル自動解析</div>
+        <div class="hero-feature"><span class="dot"></span> ZIP対応 & 複数バッチ処理</div>
+        <div class="hero-feature"><span class="dot"></span> 管理者権限の自動フォールバック</div>
+    </div>
+</section>
+
+<!-- 動作フロー -->
+<section class="section">
+    <div class="section-header">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">自動振り分けフロー</h2>
+        <p class="section-desc">README/マニュアルの指示を解析し、指示通りにファイルを配置します。<br>憶測では動かず、根拠が明確です。</p>
+    </div>
+    <div class="flow-diagram">
+        <div class="flow-node">
+            <span class="emoji">📦</span>
+            <span class="label">ZIP / フォルダ</span>
+            <span class="sub">複数選択可</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-node">
+            <span class="emoji">📝</span>
+            <span class="label">ドキュメント解析</span>
+            <span class="sub">.md .txt .pdf</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-node">
+            <span class="emoji">🔍</span>
+            <span class="label">配置指示を抽出</span>
+            <span class="sub">ファイル名 → パス</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-node">
+            <span class="emoji">✅</span>
+            <span class="label">確認 & インストール</span>
+            <span class="sub">根拠を表示</span>
+        </div>
+    </div>
+    <div class="callout info" style="max-width: 700px;">
+        <span class="callout-icon">💡</span>
+        <div class="callout-text">
+            <strong>重要：</strong> ドキュメントに配置指示がないファイルは自動的に対象外となります。<br>指示があるファイルだけを、指示通りの場所に配置します。
+        </div>
+    </div>
+</section>
+
+<!-- 特徴 -->
+<section id="features" class="section" style="padding-top: 40px;">
+    <div class="section-header">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">主な特徴</h2>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon purple">📝</div>
+            <h3>ドキュメント自動解析</h3>
+            <p>README.md / .txt、マニュアル、PDFなど全てのドキュメントを横断的にスキャンして配置指示を抽出します。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon green">📦</div>
+            <h3>ZIP & 複数選択</h3>
+            <p>ZIPファイルを自動展開して処理。⌘クリックで複数フォルダ/ZIPをまとめてバッチインストール。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon pink">🔑</div>
+            <h3>管理者権限の自動対応</h3>
+            <p>/Applications/ への書き込みで権限エラーが発生した場合、macOSのパスワードダイアログを自動で表示します。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon orange">🎯</div>
+            <h3>根拠の明示</h3>
+            <p>各ファイルの配置先について「READMEのどの行から判断したか」を表示。安心してインストールできます。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon purple">🗂️</div>
+            <h3>フォルダごとコピー</h3>
+            <p>「NeoUtility.jsx + NeoUtilityフォルダ」のような、ファイルとフォルダの両方のコピーにも対応。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon green">🖥️</div>
+            <h3>GUI & CLI 両対応</h3>
+            <p>ダブルクリックでGUI起動、ターミナルからCLI実行も可能。スクリプトによる自動化にも対応します。</p>
+        </div>
+    </div>
+</section>
+
+<!-- セットアップ -->
+<section id="install" class="section">
+    <div class="section-header">
+        <div class="section-label">Setup</div>
+        <h2 class="section-title">セットアップ</h2>
+        <p class="section-desc">事前準備は Python 3 のインストールだけ。すぐに使い始められます。</p>
+    </div>
+    <div class="steps">
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <h3>Python 3 を確認</h3>
+                <p>ターミナルで以下を実行して、Python 3 がインストール済みか確認してください。</p>
+                <div class="code-block"><code>python3 --version</code></div>
+                <p>Python 3.x.x と表示されればOK。なければ <a href="https://brew.sh" style="color:var(--accent);">Homebrew</a> でインストール：</p>
+                <div class="code-block"><code>brew install python3</code></div>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <h3>好きな場所に配置</h3>
+                <p>ダウンロードしたフォルダを好きな場所に置いてください。</p>
+                <div class="path">例: ~/Applications/AE-Installer-Tool/</div>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <h3>起動する</h3>
+                <p><strong>方法A:</strong> <code style="background:var(--bg-code);padding:2px 8px;border-radius:4px;font-size:13px;color:var(--accent-2);">AE Installer Tool.app</code> をダブルクリック<br>
+                <strong>方法B:</strong> ターミナルで実行</p>
+                <div class="code-block"><code>python3 ae_installer.py</code></div>
+            </div>
+        </div>
+    </div>
+    <div class="callout warning" style="max-width: 800px;">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-text">
+            <strong>初回起動時に「開発元不明」と表示される場合：</strong><br>
+            Finder で .app を右クリック → 「開く」 を選択。<br>
+            またはシステム設定 → プライバシーとセキュリティ → 「このまま開く」をクリック。
+        </div>
+    </div>
+</section>
+
+<!-- 使い方 -->
+<section id="usage" class="section">
+    <div class="section-header">
+        <div class="section-label">Usage</div>
+        <h2 class="section-title">使い方（GUI）</h2>
+        <p class="section-desc">ダイアログに従って操作するだけ。3ステップでインストール完了。</p>
+    </div>
+    <div class="steps">
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <h3>AE バージョンを選択</h3>
+                <p>インストール先の After Effects バージョンを選びます。<br>
+                Mac にインストール済みの AE が自動で検出されます。</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <h3>フォルダ or ZIP を選択</h3>
+                <p>「📁 フォルダ」か「📦 ZIP」を選択し、インストールしたいプラグイン/スクリプトを選択。<br>
+                <strong>⌘クリックで複数選択</strong>して一括処理もOK。</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <h3>確認してインストール</h3>
+                <p>README/マニュアルの指示から検出されたファイルと配置先が一覧表示されます。<br>
+                内容を確認して「OK」を押すとインストールが実行されます。<br>
+                権限が必要な場合は macOS のパスワードダイアログが表示されます。</p>
+            </div>
+        </div>
+    </div>
+    <div class="callout success" style="max-width: 800px;">
+        <span class="callout-icon">✅</span>
+        <div class="callout-text">
+            インストール後は <strong>After Effects を再起動</strong>してください。<br>
+            スクリプトは「ウィンドウ」メニューから、プラグインは「エフェクト」メニューから利用できます。
+        </div>
+    </div>
+</section>
+
+<!-- 対応フォーマット -->
+<section id="formats" class="section">
+    <div class="section-header">
+        <div class="section-label">Supported</div>
+        <h2 class="section-title">対応ファイル形式</h2>
+    </div>
+    <div class="formats-grid">
+        <div class="format-item">
+            <span class="format-ext">.plugin</span>
+            <span class="format-label">プラグイン (Mac)</span>
+        </div>
+        <div class="format-item">
+            <span class="format-ext">.jsx</span>
+            <span class="format-label">スクリプト</span>
+        </div>
+        <div class="format-item">
+            <span class="format-ext">.jsxbin</span>
+            <span class="format-label">コンパイル済スクリプト</span>
+        </div>
+        <div class="format-item">
+            <span class="format-ext">.ffx</span>
+            <span class="format-label">プリセット</span>
+        </div>
+        <div class="format-item">
+            <span class="format-ext">.jsxinc</span>
+            <span class="format-label">スクリプトライブラリ</span>
+        </div>
+        <div class="format-item">
+            <span class="format-ext">フォルダ</span>
+            <span class="format-label">CEP エクステンション</span>
+        </div>
+    </div>
+
+    <div class="section-header" style="margin-top: 56px;">
+        <h3 class="section-title" style="font-size: 24px;">配置先ディレクトリ</h3>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>README内のキーワード</th>
+                    <th>配置先 (AEフォルダ内)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>Scripts/ScriptUI Panels</code></td><td>Scripts/ScriptUI Panels/</td></tr>
+                <tr><td><code>Plug-ins/ベンダー名</code></td><td>Plug-ins/ベンダー名/</td></tr>
+                <tr><td><code>Presets</code></td><td>Presets/</td></tr>
+                <tr><td><code>Scripts/Startup</code></td><td>Scripts/Startup/</td></tr>
+                <tr><td><code>Scripts</code></td><td>Scripts/</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- CLI -->
+<section id="cli" class="section">
+    <div class="section-header">
+        <div class="section-label">CLI Mode</div>
+        <h2 class="section-title">コマンドライン（CLI）</h2>
+        <p class="section-desc">ターミナルから直接実行。自動化スクリプトにも組み込めます。</p>
+    </div>
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div class="code-block"><code><span class="comment"># フォルダを指定してドライラン</span>
+python3 ae_installer.py --dry-run /path/to/plugin -v 2026
+
+<span class="comment"># ZIPファイルをインストール</span>
+python3 ae_installer.py /path/to/plugin.zip -v 2026
+
+<span class="comment"># 複数パッケージを一括処理</span>
+python3 ae_installer.py /folder1 /folder2 /file.zip -v 2025
+
+<span class="comment"># バージョン省略（最新版に自動選択）</span>
+python3 ae_installer.py /path/to/plugin</code></div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>オプション</th><th>説明</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>-v</code> / <code>--version</code></td><td>AE バージョンを指定（例: 2025, 2026）</td></tr>
+                    <tr><td><code>-d</code> / <code>--dry-run</code></td><td>ドライラン（実際にはコピーしない）</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- README記法 -->
+<section class="section">
+    <div class="section-header">
+        <div class="section-label">For Plugin Authors</div>
+        <h2 class="section-title">プラグイン作者向け</h2>
+        <p class="section-desc">READMEにこのような記法で書くと、自動検出されます。</p>
+    </div>
+    <div style="max-width: 800px; margin: 0 auto;">
+        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">✅ 認識されるパターン例</h3>
+        <div class="code-block"><code><span class="comment"># パターン1: 英語 — 1行ごとにファイルとパスを記載</span>
+Copy `FXConsole.plugin` to `Plug-ins/VideoCopilot/`
+Copy `FXConsole.jsx` to `Scripts/ScriptUI Panels/`
+
+<span class="comment"># パターン2: 日本語の一括指示 + テーブル</span>
+以下を ScriptUI Panels フォルダへコピーしてください。
+
+| コピーするもの | 種類 |
+|---|---|
+| NeoUtility.jsx | ファイル |
+| NeoUtility | フォルダ |
+
+<span class="comment"># パターン3: セクション見出し + リスト</span>
+## Scripts/ScriptUI Panels/
+- MyScript.jsx
+- MyScript.jsxinc</code></div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section">
+    <div class="section-header">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">よくある質問</h2>
+    </div>
+    <div class="faq-list">
+        <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>「配置指示が見つかりません」と表示される</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">
+                README やマニュアルに「Scripts/ScriptUI Panels」「Plug-ins」「Presets」などの AE ディレクトリ名とファイル名がセットで記載されている必要があります。ドキュメントが同梱されていない、または配置先の記載がない場合は手動でインストールしてください。
+            </div></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>Windows で使える？</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">
+                現在は macOS 専用です。Windows版は今後対応予定です。<br>
+                なお、.aex（Windows用プラグイン）は自動的にスキップされます。
+            </div></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>パスワードを求められるのはなぜ？</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">
+                After Effects は /Applications/ にインストールされており、書き込みに管理者権限が必要です。macOS のパスワードダイアログが表示された場合は、Mac のログインパスワードを入力してください。
+            </div></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>インストール後にプラグインが見つからない</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">
+                After Effects を完全に終了して再起動してください。<br>
+                スクリプトは <strong>ウィンドウ</strong> メニュー、プラグインは <strong>エフェクト</strong> メニューに表示されます。
+            </div></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>PDFの配置指示も読み取れる？</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">
+                はい。PyPDF2 または pdfplumber がインストールされていれば、PDF からもテキストを抽出して配置指示を検出します。<br>
+                <code>pip3 install PyPDF2</code> でインストールしてください。
+            </div></div>
+        </div>
+    </div>
+</section>
+
+<!-- フッター -->
+<footer class="footer">
+    <p>AE Installer Tool v4.1 — Built for the After Effects community</p>
+    <p style="margin-top: 8px;">Made with ❤️ by <a href="#">高橋帝国</a></p>
+</footer>
+
+</body>
+</html>

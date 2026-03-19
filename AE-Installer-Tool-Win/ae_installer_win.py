@@ -494,6 +494,18 @@ def _extract_file_references(text: str) -> List[str]:
         if m.group(1) not in patterns:
             patterns.append(m.group(1))
 
+    # 汎用ファイル種類参照 (例: 「jsxbinファイル」→ *.jsxbin)
+    _GENERIC_EXT_MAP = {
+        "jsxbin": "*.jsxbin", "jsx": "*.jsx", "jsxinc": "*.jsxinc",
+        "plugin": "*.plugin", "ffx": "*.ffx", "aex": "*.aex",
+    }
+    for ext_name, wildcard in _GENERIC_EXT_MAP.items():
+        if wildcard in patterns:
+            continue
+        if re.search(r"(?:\.?" + re.escape(ext_name) + r")\s*(?:ファイル|file)", text, re.IGNORECASE):
+            if wildcard not in patterns:
+                patterns.append(wildcard)
+
     # コード記法内の名前
     for m in re.finditer(r"`([^`]+)`", text):
         name = m.group(1).strip()
